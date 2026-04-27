@@ -10,9 +10,9 @@ Build a clean, scalable web system for managing clients, projects, and financial
 
 ## 🧱 Tech Stack
 
-- Next.js (App Router)
+- Next.js 16 with turbopack (App Router)
 - Supabase (PostgreSQL + Auth)
-- Tailwind CSS
+- Tailwind CSS v4.2
 - shadcn/ui
 
 ---
@@ -33,6 +33,12 @@ Build a clean, scalable web system for managing clients, projects, and financial
 - UI → `app/` + `components/`
 - Logic → `services/`
 - Infra → `lib/`
+- supabase → `lib/supabase/`
+- queries → `lib/queries/`
+- actions → `lib/actions/`
+- types → `types/`
+- hooks → `hooks/`
+  ![alt text](image.png)
 
 ---
 
@@ -146,4 +152,15 @@ Every feature should help the user:
 - Understand finances
 - Save time
 - Grow the business
+
+## Tailwindcss rules
+
+- Priorize tailwindcss classes instead of inline styles
+- fix suggestionsCanonicalClass warning
+- use shadcn/ui components
+- use tailwindcss v4.2
+- use css variables for design tokens
+- use oklch for a better color perception
+- Use oklch color space instead of rgb or hex
+
 <!-- END:nextjs-agent-rules -->
