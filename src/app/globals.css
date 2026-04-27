@@ -1,26 +1,59 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary palette */
+  --primary: #4a1633;
+  --primary-container: #642c4a;
+  --on-primary: #ffffff;
+  --on-primary-container: #df95b8;
+  --inverse-primary: #fdb0d4;
+
+  /* Secondary */
+  --secondary: #9c3a70;
+  --on-secondary: #ffffff;
+  --secondary-container: #ff8bc5;
+
+  /* Surface */
+  --surface: #fff8f9;
+  --surface-container: #ffe8f3;
+  --surface-container-low: #fff0f6;
+  --surface-container-highest: #f5dce9;
+  --on-surface: #251720;
+  --on-surface-variant: #514348;
+
+  /* Outline */
+  --outline: #837379;
+  --outline-variant: #d5c2c8;
+
+  /* Error */
+  --error: #ba1a1a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Colors */
+  --color-background: var(--surface);
+  --color-foreground: var(--on-surface);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-error: var(--error);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Fonts — references Next.js font CSS vars set in layout.tsx */
+  --font-serif: var(--font-noto-serif), Georgia, serif;
+  --font-body: var(--font-manrope), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-body);
 }

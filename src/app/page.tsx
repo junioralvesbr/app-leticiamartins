@@ -1,65 +1,124 @@
-import Image from 'next/image'
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function handleSignIn(e: React.SubmitEvent) {
+    e.preventDefault()
+    setIsLoading(true)
+
+    // TODO: Integrate with Supabase Auth service
+    console.log('Sign in:', { email, password })
+
+    setTimeout(() => setIsLoading(false), 1500)
+  }
+
   return (
-    <div className='flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <main className='flex w-full max-w-3xl flex-1 flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black'>
-        <Image
-          className='dark:invert'
-          src='/next.svg'
-          alt='Next.js logo'
-          width={100}
-          height={20}
-          priority
-        />
-        <div className='flex flex-col items-center gap-6 text-center sm:items-start sm:text-left'>
-          <h1 className='max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50'>
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className='max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400'>
-            Looking for a starting point or more instructions? Head over to{' '}
-            <a
-              href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-              className='font-medium text-zinc-950 dark:text-zinc-50'
+    <main className='relative flex min-h-screen items-center justify-center overflow-hidden px-4'>
+      {/* Background gradient blobs */}
+      <div className='pointer-events-none absolute inset-0' aria-hidden='true'>
+        {/* Top-right warm accent */}
+        <div className='absolute -top-20 right-[10%] size-[420px] rounded-full bg-[radial-gradient(circle,#fdb0d4_0%,transparent_70%)] opacity-40 blur-[120px]' />
+        {/* Bottom-left soft accent */}
+        <div className='absolute -bottom-24 -left-10 size-[360px] rounded-full bg-[radial-gradient(circle,#ff8bc5_0%,transparent_70%)] opacity-30 blur-[100px]' />
+        {/* Center subtle fill */}
+        <div className='absolute top-1/2 left-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,#e5ccd9_0%,transparent_60%)] opacity-15 blur-[140px]' />
+      </div>
+
+      {/* Login card */}
+      <div className='relative z-10 w-full max-w-[440px]'>
+        <div className='border-outline-variant rounded-lg border bg-white/90 px-10 py-12 shadow-[0_8px_40px_rgba(74,22,51,0.06)] backdrop-blur-sm'>
+          {/* Brand */}
+          <div className='mb-10 text-center'>
+            <h1 className='text-primary mb-2 font-serif text-xl tracking-wide italic'>
+              Leticia Martins
+            </h1>
+            <p className='text-on-surface font-serif text-[22px] font-medium tracking-[-0.01em]'>
+              Welcome back
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSignIn} className='space-y-6'>
+            {/* Email */}
+            <div>
+              <label
+                htmlFor='login-email'
+                className='font-body text-on-surface-variant mb-2 block text-xs font-bold tracking-widest uppercase'
+              >
+                Email Address
+              </label>
+              <input
+                id='login-email'
+                type='email'
+                placeholder='your@email.com'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className='border-outline-variant font-body text-on-surface placeholder:text-outline focus:border-secondary focus:ring-secondary/20 w-full rounded-sm border bg-white px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2'
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                htmlFor='login-password'
+                className='font-body text-on-surface-variant mb-2 block text-xs font-bold tracking-widest uppercase'
+              >
+                Password
+              </label>
+              <input
+                id='login-password'
+                type='password'
+                placeholder='••••••••'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className='border-outline-variant font-body text-on-surface placeholder:text-outline focus:border-secondary focus:ring-secondary/20 w-full rounded-sm border bg-white px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2'
+              />
+            </div>
+
+            {/* Sign In button */}
+            <button
+              id='login-submit'
+              type='submit'
+              disabled={isLoading}
+              className='bg-primary-container font-body mt-4 w-full rounded-sm py-3.5 text-sm font-semibold tracking-[0.15em] text-white uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100'
             >
-              Templates
-            </a>{' '}
-            or the{' '}
-            <a
-              href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-              className='font-medium text-zinc-950 dark:text-zinc-50'
-            >
-              Learning
-            </a>{' '}
-            center.
-          </p>
+              {isLoading ? (
+                <span className='inline-flex items-center gap-2'>
+                  <svg
+                    className='size-4 animate-spin'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                  >
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      strokeWidth='4'
+                    />
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
+                    />
+                  </svg>
+                  Signing in…
+                </span>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
         </div>
-        <div className='flex flex-col gap-4 text-base font-medium sm:flex-row'>
-          <a
-            className='bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]'
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              className='dark:invert'
-              src='/vercel.svg'
-              alt='Vercel logomark'
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className='flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]'
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   )
 }
