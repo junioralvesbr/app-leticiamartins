@@ -2,31 +2,46 @@
 
 :root {
   /* Primary palette */
-  --primary: #4a1633;
-  --primary-container: #642c4a;
-  --on-primary: #ffffff;
-  --on-primary-container: #df95b8;
-  --inverse-primary: #fdb0d4;
+  --primary: oklch(24.3% 0.083 345.3);
+  --primary-container: oklch(34.4% 0.087 345.4);
+  --on-primary: oklch(100% 0 0);
+  --on-primary-container: oklch(74.2% 0.089 347.2);
+  --inverse-primary: oklch(83.5% 0.077 348.8);
+  --primary-fixed: oklch(91% 0.048 350);
 
   /* Secondary */
-  --secondary: #9c3a70;
-  --on-secondary: #ffffff;
-  --secondary-container: #ff8bc5;
+  --secondary: oklch(46.9% 0.135 344.8);
+  --on-secondary: oklch(100% 0 0);
+  --secondary-container: oklch(76% 0.126 345.5);
+  --on-secondary-container: oklch(39.2% 0.119 343.8);
+
+  /* Tertiary */
+  --tertiary: oklch(24.1% 0.091 339.7);
+  --on-tertiary: oklch(100% 0 0);
+  --tertiary-container: oklch(36.3% 0.098 340.2);
+  --on-tertiary-container: oklch(72.8% 0.104 342.4);
 
   /* Surface */
-  --surface: #fff8f9;
-  --surface-container: #ffe8f3;
-  --surface-container-low: #fff0f6;
-  --surface-container-highest: #f5dce9;
-  --on-surface: #251720;
-  --on-surface-variant: #514348;
+  --surface: oklch(98.5% 0.008 356.2);
+  --surface-dim: oklch(88.9% 0.032 346.5);
+  --surface-container-lowest: oklch(100% 0 0);
+  --surface-container-low: oklch(96.5% 0.021 351);
+  --surface-container: oklch(94.1% 0.035 350.7);
+  --surface-container-high: oklch(92.6% 0.038 350);
+  --surface-container-highest: oklch(90.4% 0.04 348.5);
+  --on-surface: oklch(20.3% 0.026 342.7);
+  --on-surface-variant: oklch(36.1% 0.025 348.6);
+  --inverse-surface: oklch(29% 0.029 343.9);
+  --inverse-on-surface: oklch(95.5% 0.023 352.4);
 
   /* Outline */
-  --outline: #837379;
-  --outline-variant: #d5c2c8;
+  --outline: oklch(54.8% 0.024 348);
+  --outline-variant: oklch(82.6% 0.026 348.4);
 
   /* Error */
-  --error: #ba1a1a;
+  --error: oklch(50.6% 0.19 27.5);
+  --error-container: oklch(90.7% 0.044 23.2);
+  --on-error-container: oklch(34.8% 0.148 27.7);
 }
 
 @theme inline {
@@ -36,16 +51,26 @@
   --color-primary: var(--primary);
   --color-primary-container: var(--primary-container);
   --color-on-primary: var(--on-primary);
+  --color-primary-fixed: var(--primary-fixed);
   --color-secondary: var(--secondary);
   --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
   --color-surface: var(--surface);
   --color-surface-container: var(--surface-container);
   --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
   --color-on-surface: var(--on-surface);
   --color-on-surface-variant: var(--on-surface-variant);
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
   --color-error: var(--error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
 
   /* Fonts — references Next.js font CSS vars set in layout.tsx */
   --font-serif: var(--font-noto-serif), Georgia, serif;
@@ -56,4 +81,16 @@ body {
   background: var(--surface);
   color: var(--on-surface);
   font-family: var(--font-body);
+}
+
+@keyframes auth-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

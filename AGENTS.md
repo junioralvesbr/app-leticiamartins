@@ -30,15 +30,12 @@ Build a clean, scalable web system for managing clients, projects, and financial
 
 ### 1. Separation of Concerns
 
-- UI → `app/` + `components/`
-- Logic → `services/`
-- Infra → `lib/`
-- supabase → `lib/supabase/`
-- queries → `lib/queries/`
-- actions → `lib/actions/`
-- types → `types/`
-- hooks → `hooks/`
-  ![alt text](image.png)
+- `app/` → rotas e páginas (App Router)
+- `components/` → UI e blocos reutilizáveis
+- `lib/` → integrações,
+- `services/` → lógica e ações server
+- `types/` → tipagem global
+- `hooks/` → lógica reativa reutilizável
 
 ---
 
