@@ -14,6 +14,9 @@ Build a clean, scalable web system for managing clients, projects, and financial
 - Supabase (PostgreSQL + Auth)
 - Tailwind CSS v4.2
 - shadcn/ui
+- zustand (state management)
+- zod (data validation)
+- Se o form for do lado do brownser e precisar validar informações no brownser utilizar react hook form com zod
 
 ---
 
@@ -159,5 +162,31 @@ Every feature should help the user:
 - use css variables for design tokens
 - use oklch for a better color perception
 - Use oklch color space instead of rgb or hex
+
+Equema do banco de dados
+
+## Table `clients`
+
+Tabela de Clientes
+
+### Columns
+
+| Name          | Type          | Constraints |
+| ------------- | ------------- | ----------- |
+| `id`          | `uuid`        | Primary     |
+| `name`        | `text`        |             |
+| `phone`       | `text`        | Nullable    |
+| `email`       | `text`        | Nullable    |
+| `cpf`         | `text`        | Nullable    |
+| `address`     | `text`        | Nullable    |
+| `city`        | `text`        | Nullable    |
+| `profession`  | `text`        | Nullable    |
+| `spouse`      | `text`        | Nullable    |
+| `birth_date`  | `date`        | Nullable    |
+| `origin`      | `text`        | Nullable    |
+| `referrer_id` | `uuid`        | Nullable    |
+| `notes`       | `text`        | Nullable    |
+| `created_at`  | `timestamptz` |             |
+| `updated_at`  | `timestamptz` |             |
 
 <!-- END:nextjs-agent-rules -->
