@@ -1,27 +1,56 @@
 'use client'
 
 import { signOut } from '@/services/auth.service'
+import {
+  Bot,
+  FolderKanban,
+  LayoutDashboard,
+  UsersRound,
+  WalletCards,
+  type LucideIcon,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
 
-const navigation = [
-  { href: '/dashboard', label: 'Dashboard', icon: '▦' },
-  { href: '/clients', label: 'Clientes', icon: '◉' },
-  { href: '/projects', label: 'Projetos', icon: '▤' },
-  { href: '/financials', label: 'Financeiro', icon: '▣' },
-  { href: '/assistants', label: 'Assistentes', icon: '◌' },
+type NavigationItem = {
+  href: string
+  label: string
+  icon: LucideIcon
+}
+
+const navigation: NavigationItem[] = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/clients', label: 'Clientes', icon: UsersRound },
+  { href: '/projects', label: 'Projetos', icon: FolderKanban },
+  { href: '/financials', label: 'Financeiro', icon: WalletCards },
+  { href: '/assistants', label: 'Assistentes', icon: Bot },
 ]
+
+function getPageTitle(pathname: string) {
+  const pageTitle = navigation.map((item) => {
+    if (pathname.startsWith(item.href)) {
+      return item.label
+    }
+  })
+
+  if (pageTitle) {
+    return pageTitle
+  }
+
+  return 'Dashboard'
+}
 
 export function PrivateShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isClientDetailsPage = /^\/clients\/[^/]+$/.test(pathname)
+  const pageTitle = getPageTitle(pathname)
 
   return (
     <div className='bg-background text-on-surface min-h-screen lg:grid lg:grid-cols-[280px_1fr]'>
       <aside className='border-outline-variant bg-surface-container-lowest hidden min-h-screen flex-col border-r lg:flex'>
         <div className='px-8 py-10'>
-          <Link href='/dashboard' className='block'>
+          <Link href='/dashboard' className='block cursor-pointer'>
             <p className='text-primary font-serif text-xl font-medium'>
               Letícia Martins
             </p>
@@ -34,6 +63,7 @@ export function PrivateShell({ children }: { children: ReactNode }) {
         <nav className='flex flex-1 flex-col gap-1 py-8'>
           {navigation.map((item) => {
             const active = pathname.startsWith(item.href)
+            const Icon = item.icon
 
             return (
               <Link
@@ -41,13 +71,11 @@ export function PrivateShell({ children }: { children: ReactNode }) {
                 href={item.href}
                 className={
                   active
-                    ? 'border-primary bg-surface-container-low text-primary flex items-center gap-4 border-r-2 px-8 py-4 text-sm font-bold tracking-widest uppercase'
-                    : 'text-on-surface-variant hover:bg-surface-container-low flex items-center gap-4 border-r-2 border-transparent px-8 py-4 text-sm font-semibold tracking-widest uppercase transition-colors'
+                    ? 'border-primary bg-surface-container-low text-primary flex cursor-pointer items-center gap-4 border-r-2 px-8 py-4 text-sm font-bold tracking-widest uppercase'
+                    : 'text-on-surface-variant hover:bg-surface-container-low flex cursor-pointer items-center gap-4 border-r-2 border-transparent px-8 py-4 text-sm font-semibold tracking-widest uppercase transition-colors'
                 }
               >
-                <span className='w-5 text-center text-lg leading-none'>
-                  {item.icon}
-                </span>
+                <Icon className='size-5 shrink-0' aria-hidden='true' />
                 {item.label}
               </Link>
             )
@@ -72,16 +100,9 @@ export function PrivateShell({ children }: { children: ReactNode }) {
       <div className='min-w-0'>
         {isClientDetailsPage ? null : (
           <header className='border-outline-variant bg-surface-container-lowest/85 sticky top-0 z-20 flex items-center justify-between gap-4 border-b px-4 py-4 backdrop-blur md:px-8 lg:px-10'>
-            <div className='relative w-full max-w-xl'>
-              <span className='text-outline absolute top-1/2 left-4 -translate-y-1/2'>
-                ⌕
-              </span>
-              <input
-                type='search'
-                placeholder='Buscar no sistema...'
-                className='bg-surface-container-low text-on-surface placeholder:text-on-surface-variant focus:ring-secondary/15 focus:border-outline-variant w-full rounded-lg border border-transparent py-3 pr-4 pl-11 text-sm transition-all outline-none focus:ring-2'
-              />
-            </div>
+            <h1 className='text-primary font-serif text-2xl font-semibold md:text-3xl'>
+              {pageTitle}
+            </h1>
 
             <div className='hidden items-center gap-4 md:flex'>
               <span className='text-primary font-serif text-base'>
@@ -90,7 +111,7 @@ export function PrivateShell({ children }: { children: ReactNode }) {
               <form action={signOut}>
                 <button
                   type='submit'
-                  className='border-outline-variant text-on-surface-variant hover:text-primary rounded border px-3 py-2 text-xs font-bold tracking-widest uppercase transition-colors'
+                  className='border-outline-variant text-on-surface-variant hover:text-primary cursor-pointer rounded border px-3 py-2 text-xs font-bold tracking-widest uppercase transition-colors'
                 >
                   Sair
                 </button>

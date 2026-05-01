@@ -1,6 +1,19 @@
 import { ClientDetailActions } from '@/components/clients/client-detail-actions'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getClientById, getClients } from '@/services/clients.service'
+import {
+  AtSign,
+  CalendarDays,
+  ChevronRight,
+  ClipboardList,
+  ContactRound,
+  Database,
+  FileText,
+  MapPin,
+  Phone,
+  UserRound,
+  type LucideIcon,
+} from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -13,7 +26,7 @@ type ClientDetailsPageProps = {
 type DetailItemProps = {
   label: string
   value: React.ReactNode
-  icon?: string
+  icon?: LucideIcon
 }
 
 function formatDate(date: string | null) {
@@ -53,19 +66,16 @@ function getInitials(name: string) {
 }
 
 function DetailItem({ label, value, icon }: DetailItemProps) {
+  const Icon = icon
+
   return (
     <div>
       <p className='text-on-surface-variant text-xs font-bold tracking-widest'>
         {label}
       </p>
       <p className='text-on-surface mt-2 flex items-center gap-2 text-sm leading-6 sm:text-base'>
-        {icon ? (
-          <span
-            className='text-primary text-sm leading-none'
-            aria-hidden='true'
-          >
-            {icon}
-          </span>
+        {Icon ? (
+          <Icon className='text-primary size-4' aria-hidden='true' />
         ) : null}
         <span>{value || 'Não informado'}</span>
       </p>
@@ -73,15 +83,16 @@ function DetailItem({ label, value, icon }: DetailItemProps) {
   )
 }
 
-function SectionTitle({ icon, children }: { icon: string; children: string }) {
+function SectionTitle({
+  icon: Icon,
+  children,
+}: {
+  icon: LucideIcon
+  children: string
+}) {
   return (
     <CardTitle className='text-primary flex items-center gap-4 text-3xl'>
-      <span
-        className='flex size-9 items-center justify-center text-xl leading-none'
-        aria-hidden='true'
-      >
-        {icon}
-      </span>
+      <Icon className='size-7 shrink-0' aria-hidden='true' />
       {children}
     </CardTitle>
   )
@@ -111,11 +122,11 @@ export default async function ClientDetailsPage({
         >
           <Link
             href='/clients'
-            className='hover:text-primary transition-colors'
+            className='hover:text-primary cursor-pointer transition-colors'
           >
             Clientes
           </Link>
-          <span aria-hidden='true'>›</span>
+          <ChevronRight className='size-4' aria-hidden='true' />
           <span className='border-primary text-primary border-b font-semibold'>
             {client.name}
           </span>
@@ -169,30 +180,43 @@ export default async function ClientDetailsPage({
         <section className='grid gap-8 lg:grid-cols-[0.9fr_1.9fr]'>
           <Card className='bg-surface-container-lowest'>
             <CardHeader className='px-10 pt-10'>
-              <SectionTitle icon='♙'>Dados Pessoais</SectionTitle>
+              <SectionTitle icon={UserRound}>Dados Pessoais</SectionTitle>
             </CardHeader>
             <CardContent className='flex flex-col gap-8 px-10 pt-6 pb-10'>
-              <DetailItem label='CPF' value={client.cpf} />
-              <DetailItem label='Cônjuge' value={client.spouse} />
+              <DetailItem label='CPF' value={client.cpf} icon={ContactRound} />
+              <DetailItem
+                label='Cônjuge'
+                value={client.spouse}
+                icon={UserRound}
+              />
               <DetailItem
                 label='Data de Nascimento'
                 value={formatDate(client.birth_date)}
+                icon={CalendarDays}
               />
             </CardContent>
           </Card>
 
           <Card className='bg-surface-container-lowest'>
             <CardHeader className='px-10 pt-10'>
-              <SectionTitle icon='▧'>Contato e Endereço</SectionTitle>
+              <SectionTitle icon={MapPin}>Contato e Endereço</SectionTitle>
             </CardHeader>
             <CardContent className='grid gap-8 px-10 pt-6 pb-10 md:grid-cols-2'>
-              <DetailItem label='Celular' value={client.phone} icon='⌕' />
-              <DetailItem label='E-mail' value={client.email} icon='✉' />
+              <DetailItem label='Celular' value={client.phone} icon={Phone} />
+              <DetailItem label='E-mail' value={client.email} icon={AtSign} />
               <div className='md:col-span-2'>
-                <DetailItem label='Endereço' value={client.address} />
+                <DetailItem
+                  label='Endereço'
+                  value={client.address}
+                  icon={MapPin}
+                />
               </div>
               <div className='md:col-span-2'>
-                <DetailItem label='Cidade / UF' value={client.city} />
+                <DetailItem
+                  label='Cidade / UF'
+                  value={client.city}
+                  icon={MapPin}
+                />
               </div>
             </CardContent>
           </Card>
@@ -201,28 +225,35 @@ export default async function ClientDetailsPage({
         <section className='grid gap-8 lg:grid-cols-[1.45fr_1fr]'>
           <Card className='border-primary-fixed bg-primary-fixed/45 min-h-96'>
             <CardHeader className='px-10 pt-10'>
-              <SectionTitle icon='▤'>Origem e Sistema</SectionTitle>
+              <SectionTitle icon={Database}>Origem e Sistema</SectionTitle>
             </CardHeader>
             <CardContent className='grid gap-12 px-10 pt-6 pb-10 md:grid-cols-2'>
-              <DetailItem label='Como Chegou' value={client.origin} />
+              <DetailItem
+                label='Como Chegou'
+                value={client.origin}
+                icon={Database}
+              />
               <DetailItem
                 label='Indicado por'
                 value={client.referrer?.name ?? null}
+                icon={UserRound}
               />
               <DetailItem
                 label='Data de Cadastro'
                 value={formatDate(client.created_at)}
+                icon={CalendarDays}
               />
               <DetailItem
                 label='Última Atualização'
                 value={formatDateTime(client.updated_at)}
+                icon={ClipboardList}
               />
             </CardContent>
           </Card>
 
           <Card className='bg-surface-container-lowest'>
             <CardHeader className='px-10 pt-10'>
-              <SectionTitle icon='▣'>Observações</SectionTitle>
+              <SectionTitle icon={FileText}>Observações</SectionTitle>
             </CardHeader>
             <CardContent className='px-10 pt-4 pb-10'>
               <div className='bg-surface-container-low rounded p-8'>

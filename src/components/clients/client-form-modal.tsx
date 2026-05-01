@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { ButtonSpinner } from '@/components/ui/button-spinner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -13,6 +14,7 @@ import {
   type ClientFormState,
   type ClientOrigin,
 } from '@/types/client'
+import { X } from 'lucide-react'
 import { useActionState, useEffect, useRef, useState } from 'react'
 
 type ClientFormModalProps = {
@@ -58,7 +60,7 @@ export function ClientFormModal({
     <>
       <button
         type='button'
-        className='contents'
+        className='contents cursor-pointer'
         onClick={() => dialogRef.current?.showModal()}
       >
         {trigger}
@@ -80,11 +82,11 @@ export function ClientFormModal({
             </div>
             <button
               type='button'
-              className='text-outline hover:text-primary rounded px-2 py-1 text-xl leading-none transition-colors'
+              className='text-outline hover:text-primary cursor-pointer rounded p-2 transition-colors'
               onClick={() => dialogRef.current?.close()}
               aria-label='Fechar modal'
             >
-              ×
+              <X className='size-5' aria-hidden='true' />
             </button>
           </div>
 
@@ -190,7 +192,7 @@ export function ClientFormModal({
                 onChange={(event) =>
                   setSelectedOrigin(event.target.value as ClientOrigin)
                 }
-                className='border-outline-variant bg-surface-container-low/60 font-body text-on-surface focus:border-secondary focus:ring-secondary/15 w-full rounded border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2'
+                className='border-outline-variant bg-surface-container-low/60 font-body text-on-surface focus:border-secondary focus:ring-secondary/15 w-full cursor-pointer rounded border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2'
               >
                 {clientOrigins.map((origin) => (
                   <option key={origin} value={origin}>
@@ -208,7 +210,7 @@ export function ClientFormModal({
                 name='referrer_id'
                 defaultValue={values?.referrer_id ?? client?.referrer_id ?? ''}
                 disabled={selectedOrigin !== 'Indicação'}
-                className='border-outline-variant bg-surface-container-low/60 font-body text-on-surface focus:border-secondary focus:ring-secondary/15 disabled:text-outline w-full rounded border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-70'
+                className='border-outline-variant bg-surface-container-low/60 font-body text-on-surface focus:border-secondary focus:ring-secondary/15 disabled:text-outline w-full cursor-pointer rounded border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-70'
               >
                 <option value=''>Selecione</option>
                 {clients
@@ -252,7 +254,14 @@ export function ClientFormModal({
               Cancelar
             </Button>
             <Button type='submit' disabled={pending}>
-              {pending ? 'Salvando...' : 'Salvar cliente'}
+              {pending ? (
+                <span className='inline-flex items-center justify-center gap-2'>
+                  <ButtonSpinner />
+                  Salvando...
+                </span>
+              ) : (
+                'Salvar cliente'
+              )}
             </Button>
           </div>
         </form>

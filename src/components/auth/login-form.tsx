@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { ButtonSpinner } from '@/components/ui/button-spinner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { signInWithPassword, type AuthFormState } from '@/services/auth.service'
@@ -16,7 +17,11 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
 
   return (
     <form action={formAction} className='flex flex-col gap-6'>
-      <input type='hidden' name='redirectTo' value={redirectTo ?? '/dashboard'} />
+      <input
+        type='hidden'
+        name='redirectTo'
+        value={redirectTo ?? '/dashboard'}
+      />
 
       {state.error ? (
         <div
@@ -28,11 +33,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
       ) : null}
 
       <div>
-        <Label
-          htmlFor='login-email'
-        >
-          Email
-        </Label>
+        <Label htmlFor='login-email'>Email</Label>
         <Input
           id='login-email'
           name='email'
@@ -44,11 +45,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
       </div>
 
       <div>
-        <Label
-          htmlFor='login-password'
-        >
-          Senha
-        </Label>
+        <Label htmlFor='login-password'>Senha</Label>
         <Input
           id='login-password'
           name='password'
@@ -64,14 +61,11 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
         type='submit'
         disabled={isPending}
         aria-busy={isPending}
-        className='mt-2 w-full uppercase tracking-widest'
+        className='mt-2 w-full tracking-widest uppercase'
       >
         {isPending ? (
           <span className='inline-flex items-center justify-center gap-2'>
-            <span
-              className='size-4 animate-spin rounded-full border-2 border-white/35 border-t-white'
-              aria-hidden='true'
-            />
+            <ButtonSpinner />
             Entrando...
           </span>
         ) : (

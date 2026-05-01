@@ -2,8 +2,10 @@
 
 import { ClientFormModal } from '@/components/clients/client-form-modal'
 import { Button } from '@/components/ui/button'
+import { ButtonSpinner } from '@/components/ui/button-spinner'
 import { deleteClientAction } from '@/services/clients.service'
 import type { Client } from '@/types/client'
+import { Pencil, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 
@@ -39,7 +41,8 @@ export function ClientDetailActions({
         client={client}
         clients={clients}
         trigger={
-          <span className='font-body border-primary text-primary hover:bg-primary-fixed/60 inline-flex min-h-11 items-center justify-center rounded border bg-transparent px-7 text-sm font-semibold transition-all duration-200'>
+          <span className='font-body border-primary text-primary hover:bg-primary-fixed/60 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded border bg-transparent px-7 text-sm font-semibold transition-all duration-200'>
+            <Pencil className='size-4' aria-hidden='true' />
             Editar
           </span>
         }
@@ -50,6 +53,7 @@ export function ClientDetailActions({
         onClick={() => dialogRef.current?.showModal()}
         className='min-h-11 px-7 text-sm'
       >
+        <Trash2 className='size-4' aria-hidden='true' />
         Excluir
       </Button>
 
@@ -64,9 +68,7 @@ export function ClientDetailActions({
           <input type='hidden' name='id' value={client.id} />
 
           <div className='bg-error-container text-error flex size-16 items-center justify-center rounded-lg'>
-            <span className='text-3xl leading-none' aria-hidden='true'>
-              x
-            </span>
+            <Trash2 className='size-7' aria-hidden='true' />
           </div>
 
           <h2 className='text-on-surface mt-8 font-serif text-xl font-semibold'>
@@ -88,14 +90,21 @@ export function ClientDetailActions({
               aria-busy={isDeleting}
               className='w-full'
             >
-              {isDeleting ? 'Excluindo...' : 'Excluir'}
+              {isDeleting ? (
+                <span className='inline-flex items-center justify-center gap-2'>
+                  <ButtonSpinner />
+                  Excluindo...
+                </span>
+              ) : (
+                'Excluir'
+              )}
             </Button>
 
             <button
               type='button'
               disabled={isDeleting}
               onClick={() => dialogRef.current?.close()}
-              className='text-on-surface hover:text-primary rounded py-2 text-base transition-colors disabled:pointer-events-none disabled:opacity-60'
+              className='text-on-surface hover:text-primary cursor-pointer rounded py-2 text-base transition-colors disabled:cursor-not-allowed disabled:opacity-60'
             >
               Cancelar
             </button>
