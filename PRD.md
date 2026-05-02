@@ -10,11 +10,15 @@ O sistema tem como objetivo centralizar operações, fornecer clareza financeira
 
 ## 2. 🧩 Stack Tecnológica
 
-- Frontend: Next.js (App Router)
-- UI: Tailwind CSS + shadcn/ui
+- Frontend: Next.js 16 com App Router e Turbopack
+- UI: Tailwind CSS v4.2 + shadcn/ui
+- Ícones: lucide-react
 - Backend: Supabase
 - Banco de Dados: PostgreSQL
 - Autenticação: Supabase Auth
+- Estado local: zustand, quando necessário
+- Validação: zod
+- Formulários client-side: react-hook-form + zod quando houver validação no browser
 
 ---
 
@@ -224,40 +228,122 @@ Separação obrigatória dos dados financeiros:
 
 ### Dashboard
 
-- Cards com KPIs
+- Visão inicial com KPIs financeiros prioritários
+- Cards compactos com receita total, despesa total, lucro líquido e custo fixo mensal
 - Gráfico de receitas vs despesas
+- Destaques de atenção para queda de lucro, aumento de despesas ou projetos com baixa margem
 
 ---
 
 ### Clientes
 
-- Listagem com filtros
-- Cadastro e edição
-- Visualização de indicações
+- Listagem com filtros por nome, cidade, origem e período de cadastro
+- Cadastro e edição em formulário limpo, com campos agrupados por informação pessoal, contato e origem
+- Visualização de indicações e cliente indicador
+- Ações rápidas com ícones: visualizar, editar, excluir e entrar em contato
 
 ---
 
 ### Projetos
 
-- Listagem
-- Detalhes do projeto
-- Financeiro vinculado
+- Listagem com status, cliente, serviço, datas e valor total
+- Detalhes do projeto com resumo financeiro vinculado
+- Seção de receitas e despesas de projeto separadas visualmente
+- Ações rápidas com ícones: visualizar, editar, adicionar receita, adicionar despesa
 
 ---
 
 ### Financeiro
 
-- Listagem geral
-- Filtros por tipo, categoria e período
+- Listagem geral com separação clara entre receitas, despesas de projeto e despesas fixas
+- Filtros por tipo, categoria, projeto e período
+- Botões de lançamento financeiro distintos para receita, despesa de projeto e despesa fixa
+- Sinalização visual para impedir mistura entre despesas fixas e despesas de projeto
 
 ---
 
 ## 10. 🎨 Diretrizes de Design
 
-- Estilo clean e sofisticado
-- Interface minimalista
-- Foco em usabilidade e produtividade
-- Uso consistente de espaçamentos e tipografia
+- Estilo clean, sofisticado e funcional, seguindo o conceito "Sophisticated Order"
+- Interface minimalista, com foco em clareza financeira e produtividade
+- Uso consistente dos tokens definidos em `DESIGN.md`
+- Priorizar Tailwind CSS classes em vez de estilos inline
+- Usar variáveis CSS para tokens de cor, espaçamento e raio
+- Usar `oklch` para cores no CSS final
+- Evitar complexidade visual que não ajude na tomada de decisão
+
+### 10.1 Layout
+
+- Usar grid desktop de 12 colunas com gutters de 24px
+- Usar escala de espaçamento baseada em 8px
+- Margens de página generosas, preferencialmente 32px ou 48px em desktop
+- Seções devem ter respiro vertical, principalmente em dashboards e telas financeiras
+- Evitar cards dentro de cards
+- Cards devem representar itens, KPIs, blocos de dados ou modais, não páginas inteiras
+- Em mobile, priorizar leitura em coluna única e ações principais sempre acessíveis
+
+### 10.2 Tipografia
+
+- Usar Noto Serif para títulos e áreas de maior hierarquia visual
+- Usar Manrope para textos funcionais, labels, botões, tabelas e formulários
+- Títulos devem ser usados com moderação para manter o produto com aparência editorial e profissional
+- Textos de interface devem ser objetivos, orientados a ação e sem excesso de instruções
+
+### 10.3 Cores e Superfícies
+
+- Usar plum profundo como cor primária para ações principais e estados ativos
+- Usar tons rose/magenta apenas como apoio para estados, seleção e destaques
+- Usar camadas tonais em vez de sombras fortes
+- Bordas finas devem ser preferidas para separar cards, tabelas e painéis
+- Sombras devem ser suaves e reservadas para modais, menus e elementos flutuantes
+- Não usar paletas improvisadas fora dos tokens definidos
+
+### 10.4 Botões
+
+- Usar componentes shadcn/ui para botões
+- Botão primário: ação principal da tela, com preenchimento na cor primária
+- Botão secundário: ações alternativas, preferencialmente com borda ou variante discreta
+- Botão destrutivo: apenas para exclusões ou ações irreversíveis
+- Botões devem ter altura, padding e tipografia consistentes
+- Ações com significado visual claro devem usar ícone lucide junto do texto ou somente ícone quando o contexto for evidente
+- Botões somente com ícone devem ter tooltip ou `aria-label`
+- Evitar múltiplos botões primários competindo na mesma região da tela
+
+### 10.5 Ícones
+
+- Usar lucide-react como biblioteca padrão
+- Ícones devem seguir estilo line minimalista
+- Usar stroke visual consistente, preferencialmente 1.5px quando customizável
+- Ícones ativos usam cor primária; ícones neutros usam cor de texto secundário ou variante de superfície
+- Não misturar bibliotecas de ícones sem necessidade
+- Ícones devem reforçar uma ação, não decorar a interface sem função
+
+### 10.6 Formulários
+
+- Usar componentes shadcn/ui para inputs, selects, dialogs e feedbacks
+- Labels acima dos campos, com boa legibilidade
+- Validação deve ser feita com zod
+- Em formulários client-side com validação no browser, usar react-hook-form + zod
+- Campos financeiros devem deixar claro se o lançamento é receita, despesa de projeto ou despesa fixa
+- Despesa de projeto deve exigir projeto selecionado
+- Despesa fixa não deve exibir campo de projeto
+
+### 10.7 Tabelas e Listagens
+
+- Listagens devem ser escaneáveis, com colunas úteis para decisão
+- Ações de linha devem usar ícones consistentes
+- Filtros devem ficar próximos da listagem que controlam
+- Estados vazio, carregando e erro devem ser tratados com componentes reutilizáveis
+- Dados financeiros devem ter alinhamento e formatação consistentes
+
+### 10.8 Critérios de Aceite Visual
+
+- A tela deve usar tokens do design system
+- Botões e ícones devem seguir os padrões definidos neste PRD
+- Não deve haver estilos inline para decisões visuais permanentes
+- Não deve haver chamadas diretas ao Supabase em componentes
+- A interface deve deixar clara a separação entre receitas, despesas de projeto e despesas fixas
+- Layout deve funcionar em desktop e mobile sem sobreposição ou quebra de texto
 
 ---
 
